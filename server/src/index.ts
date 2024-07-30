@@ -8,6 +8,7 @@ import { ReorderService } from "./services/reorder.service";
 import {Logger} from "./logger/Logger";
 import {FileLogger} from "./logger/FileLogger";
 import {ConsoleErrorLogger} from "./logger/ConsoleErrorLogger";
+import {ReorderServiceProxy} from "./services/reorder.service.proxy";
 
 const PORT = 3005;
 
@@ -20,7 +21,6 @@ const io = new Server(httpServer, {
 });
 
 const db = Database.Instance;
-const reorderService = new ReorderService();
 
 if (process.env.NODE_ENV !== "production") {
   db.setData(lists);
@@ -32,9 +32,12 @@ logger.subscribe(fileLogger);
 const consoleErrorLogger = new ConsoleErrorLogger();
 logger.subscribe(consoleErrorLogger);
 
+const reorderService = new ReorderService();
+const reorderServiceProxy = new ReorderServiceProxy(reorderService, logger);
+
 const onConnection = (socket: Socket): void => {
-  new ListHandler(io, db, reorderService, logger).handleConnection(socket);
-  new CardHandler(io, db, reorderService, logger).handleConnection(socket);
+  new ListHandler(io, db, reorderServiceProxy, logger).handleConnection(socket);
+  new CardHandler(io, db, reorderServiceProxy, logger).handleConnection(socket);
 };
 
 io.on("connection", onConnection);
