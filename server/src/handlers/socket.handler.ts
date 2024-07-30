@@ -3,6 +3,7 @@ import { Server, Socket } from "socket.io";
 import { ListEvent } from "../common/enums/enums";
 import { Database } from "../data/database";
 import { ReorderService } from "../services/reorder.service";
+import {Logger} from "../logger/Logger";
 
 abstract class SocketHandler {
   protected db: Database;
@@ -11,10 +12,13 @@ abstract class SocketHandler {
 
   protected io: Server;
 
-  public constructor(io: Server, db: Database, reorderService: ReorderService) {
+  protected logger: Logger;
+
+  public constructor(io: Server, db: Database, reorderService: ReorderService, logger: Logger) {
     this.io = io;
     this.db = db;
     this.reorderService = reorderService;
+    this.logger = logger;
   }
 
   public abstract handleConnection(socket: Socket): void;

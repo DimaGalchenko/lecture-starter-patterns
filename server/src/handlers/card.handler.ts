@@ -24,6 +24,7 @@ class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
+    this.logger.log('info', `Card created: ${cardName} in list ${listId}`)
   }
 
   private deleteCard(listId: string, cardId: string): void {
@@ -33,6 +34,7 @@ class CardHandler extends SocketHandler {
     list.setCards(updatedCards);
     this.db.setData(lists);
     this.updateLists();
+    this.logger.log('info', `Card deleted: ${cardId} from list ${listId}`);
   }
 
   private renameCard(listId: string, cardId: string, name: string): void {
@@ -42,6 +44,7 @@ class CardHandler extends SocketHandler {
     card.name = name;
     this.db.setData(lists);
     this.updateLists();
+    this.logger.log('info', `Card renamed: ${cardId} in list ${listId} to ${name}`);
   }
 
   private changeDescription(listId: string, cardId: string, description: string): void {
@@ -51,6 +54,7 @@ class CardHandler extends SocketHandler {
     card.description = description;
     this.db.setData(lists);
     this.updateLists();
+    this.logger.log('info', `Card description changed: ${cardId} in list ${listId}`);
   }
 
   private duplicateCard(listId: string, cardId: string): void {
@@ -62,6 +66,7 @@ class CardHandler extends SocketHandler {
     cards.push(clonedCard);
     this.db.setData(lists);
     this.updateLists();
+    this.logger.log('info', `Card duplicated: ${cardId} in list ${listId}`);
   }
 
   private reorderCards({
