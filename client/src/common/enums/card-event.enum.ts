@@ -4,6 +4,7 @@ const CardEvent = {
   RENAME: "card:rename",
   CHANGE_DESCRIPTION: "card:change-description",
   DELETE: "card:delete",
+  COPY: "card:copy"
 } as const;
 
 export { CardEvent };

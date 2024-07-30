@@ -12,9 +12,11 @@ type Props = {
   cards: Card[];
   onCardDelete: (listId: string, cardId: string) => void;
   onCardRename: (listId: string, cardId: string, name: string) => void;
+  onCardDescriptionChange: (carId: string, description: string) => void;
+  onCardCopy: (cardId: string) => void;
 };
 
-const CardsList = ({listId, listType, cards, onCardDelete, onCardRename}: Props) => {
+const CardsList = ({listId, listType, cards, onCardDelete, onCardRename, onCardDescriptionChange, onCardCopy}: Props) => {
   return (
     <Droppable droppableId={listId} type={listType}>
       {(dropProvided: DroppableProvided) => (
@@ -22,7 +24,10 @@ const CardsList = ({listId, listType, cards, onCardDelete, onCardRename}: Props)
           <ScrollContainer>
             <List cards={cards} dropProvided={dropProvided}
                   onCardDelete={(cardId: string) => onCardDelete(listId, cardId)}
-                  onCardRename={(cardId, name) => onCardRename(listId, cardId, name)}/>
+                  onCardRename={(cardId, name) => onCardRename(listId, cardId, name)}
+                  onCardDescriptionChange={onCardDescriptionChange}
+                  onCardCopy={onCardCopy}
+            />
           </ScrollContainer>
         </ListWrapper>
       )}

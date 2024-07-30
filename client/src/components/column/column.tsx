@@ -24,9 +24,23 @@ type Props = {
   onCreateCard: (id: string, name: string) => void;
   onCardDelete: (listId: string, cardId: string) => void;
   onCardRename: (listId: string, cardId: string, name: string) => void;
+  onCardDescriptionChange: (listId: string, cardId: string, description: string) => void;
+  onCardCopy: (listId: string, cardId: string) => void;
 };
 
-export const Column = ({ listId, listName, cards, index, onTitleChange, onDelete, onCreateCard, onCardDelete, onCardRename }: Props) => {
+export const Column = ({
+                         listId,
+                         listName,
+                         cards,
+                         index,
+                         onTitleChange,
+                         onDelete,
+                         onCreateCard,
+                         onCardDelete,
+                         onCardRename,
+                         onCardDescriptionChange,
+                         onCardCopy
+                       }: Props) => {
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -48,11 +62,15 @@ export const Column = ({ listId, listName, cards, index, onTitleChange, onDelete
               width={200}
               isBold
             />
-            <Splitter />
-            <DeleteButton color="#FFF0" onClick={() => onDelete(listId)} />
+            <Splitter/>
+            <DeleteButton color="#FFF0" onClick={() => onDelete(listId)}/>
           </Header>
-          <CardsList listId={listId} listType="CARD" cards={cards} onCardDelete={onCardDelete} onCardRename={onCardRename}/>
-          <Footer onCreateCard={(name) => onCreateCard(listId, name)} />
+          <CardsList listId={listId} listType="CARD" cards={cards} onCardDelete={onCardDelete}
+                     onCardRename={onCardRename}
+                     onCardDescriptionChange={(cardId, description) => onCardDescriptionChange(listId, cardId, description)}
+                     onCardCopy={(cardId) => onCardCopy(listId, cardId)}
+          />
+          <Footer onCreateCard={(name) => onCreateCard(listId, name)}/>
         </Container>
       )}
     </Draggable>

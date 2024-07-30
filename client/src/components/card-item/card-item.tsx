@@ -15,10 +15,12 @@ type Props = {
   isDragging: boolean;
   provided: DraggableProvided;
   onDelete: (id: string) => void;
-  onTitleChange: (id: string, title: string) => void
+  onTitleChange: (id: string, title: string) => void;
+  onDescriptionChange: (id: string, description: string) => void;
+  onCopy: (id: string) => void;
 };
 
-export const CardItem = ({ card, isDragging, provided, onDelete, onTitleChange }: Props) => {
+export const CardItem = ({ card, isDragging, provided, onDelete, onTitleChange, onDescriptionChange, onCopy }: Props) => {
   return (
     <Container
       className="card-container"
@@ -32,11 +34,11 @@ export const CardItem = ({ card, isDragging, provided, onDelete, onTitleChange }
     >
       <Content>
         <Title onChange={(title) => onTitleChange(card.id, title)} title={card.name} fontSize="large" isBold />
-        <Text text={card.description} onChange={() => {}} />
+        <Text text={card.description} onChange={(description) => onDescriptionChange(card.id, description)} />
         <Footer>
           <DeleteButton onClick={() => onDelete(card.id)} />
           <Splitter />
-          <CopyButton onClick={() => {}} />
+          <CopyButton onClick={() => onCopy(card.id)} />
         </Footer>
       </Content>
     </Container>

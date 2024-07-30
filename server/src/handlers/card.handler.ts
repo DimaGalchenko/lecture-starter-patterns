@@ -9,7 +9,9 @@ class CardHandler extends SocketHandler {
     socket.on(CardEvent.CREATE, this.createCard.bind(this));
     socket.on(CardEvent.REORDER, this.reorderCards.bind(this));
     socket.on(CardEvent.DELETE, this.deleteCard.bind(this));
-    socket.on(CardEvent.RENAME, this.renameCard.bind(this))
+    socket.on(CardEvent.RENAME, this.renameCard.bind(this));
+    socket.on(CardEvent.CHANGE_DESCRIPTION, this.changeDescription.bind(this));
+    socket.on(CardEvent.COPY, this.duplicateCard.bind(this));
   }
 
   public createCard(listId: string, cardName: string): void {
@@ -38,6 +40,26 @@ class CardHandler extends SocketHandler {
     const list = lists.find((list) => list.id === listId);
     const card = list.cards.find((card) => card.id === cardId);
     card.name = name;
+    this.db.setData(lists);
+    this.updateLists();
+  }
+
+  private changeDescription(listId: string, cardId: string, description: string): void {
+    const lists = this.db.getData();
+    const list = lists.find((list) => list.id === listId);
+    const card = list.cards.find((card) => card.id === cardId);
+    card.description = description;
+    this.db.setData(lists);
+    this.updateLists();
+  }
+
+  private duplicateCard(listId: string, cardId: string): void {
+    const lists = this.db.getData();
+    const list = lists.find((list) => list.id === listId);
+    const cards = list.cards;
+    const card = cards.find((card) => card.id === cardId);
+    const clonedCard = card.clone();
+    cards.push(clonedCard);
     this.db.setData(lists);
     this.updateLists();
   }
