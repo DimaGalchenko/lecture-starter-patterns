@@ -80,6 +80,10 @@ export const Workspace = () => {
     socket.emit(CardEvent.CREATE, listId, name)
   }
 
+  function onCardDelete(listId: string, cardId: string) {
+    socket.emit(CardEvent.DELETE, listId, cardId);
+  }
+
   return (
     <React.Fragment>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -100,6 +104,7 @@ export const Workspace = () => {
                   onTitleChange={onListNameChange}
                   onDelete={onDeleteList}
                   onCreateCard={onCreateCard}
+                  onCardDelete={onCardDelete}
                 />
               ))}
               {provided.placeholder}

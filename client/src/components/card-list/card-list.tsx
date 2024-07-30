@@ -10,15 +10,16 @@ type Props = {
   listId: string;
   listType: string;
   cards: Card[];
+  onCardDelete: (listId: string, cardId: string) => void;
 };
 
-const CardsList = ({ listId, listType, cards }: Props) => {
+const CardsList = ({ listId, listType, cards, onCardDelete }: Props) => {
   return (
     <Droppable droppableId={listId} type={listType}>
       {(dropProvided: DroppableProvided) => (
         <ListWrapper {...dropProvided.droppableProps}>
           <ScrollContainer>
-            <List cards={cards} dropProvided={dropProvided} />
+            <List cards={cards} dropProvided={dropProvided} onCardDelete={(cardId: string) => onCardDelete(listId, cardId)} />
           </ScrollContainer>
         </ListWrapper>
       )}

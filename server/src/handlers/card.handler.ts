@@ -8,6 +8,7 @@ class CardHandler extends SocketHandler {
   public handleConnection(socket: Socket): void {
     socket.on(CardEvent.CREATE, this.createCard.bind(this));
     socket.on(CardEvent.REORDER, this.reorderCards.bind(this));
+    socket.on(CardEvent.DELETE, this.deleteCard.bind(this));
   }
 
   public createCard(listId: string, cardName: string): void {
@@ -19,6 +20,15 @@ class CardHandler extends SocketHandler {
     );
 
     this.db.setData(updatedLists);
+    this.updateLists();
+  }
+
+  private deleteCard(listId: string, cardId: string): void {
+    const lists = this.db.getData();
+    const list = lists.find((list) => list.id === listId);
+    const updatedCards = list.cards.filter((card) => card.id !== cardId);
+    list.setCards(updatedCards);
+    this.db.setData(lists);
     this.updateLists();
   }
 

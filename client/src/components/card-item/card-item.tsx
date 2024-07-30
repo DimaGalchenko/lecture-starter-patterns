@@ -14,9 +14,10 @@ type Props = {
   card: Card;
   isDragging: boolean;
   provided: DraggableProvided;
+  onDelete: (id: string) => void;
 };
 
-export const CardItem = ({ card, isDragging, provided }: Props) => {
+export const CardItem = ({ card, isDragging, provided, onDelete }: Props) => {
   return (
     <Container
       className="card-container"
@@ -32,7 +33,7 @@ export const CardItem = ({ card, isDragging, provided }: Props) => {
         <Title onChange={() => {}} title={card.name} fontSize="large" isBold />
         <Text text={card.description} onChange={() => {}} />
         <Footer>
-          <DeleteButton onClick={() => {}} />
+          <DeleteButton onClick={() => onDelete(card.id)} />
           <Splitter />
           <CopyButton onClick={() => {}} />
         </Footer>

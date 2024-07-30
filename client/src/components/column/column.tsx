@@ -22,9 +22,10 @@ type Props = {
   onTitleChange: (id: string, newTitle: string) => void;
   onDelete: (id: string) => void;
   onCreateCard: (id: string, name: string) => void;
+  onCardDelete: (listId: string, cardId: string) => void;
 };
 
-export const Column = ({ listId, listName, cards, index, onTitleChange, onDelete, onCreateCard }: Props) => {
+export const Column = ({ listId, listName, cards, index, onTitleChange, onDelete, onCreateCard, onCardDelete }: Props) => {
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -49,7 +50,7 @@ export const Column = ({ listId, listName, cards, index, onTitleChange, onDelete
             <Splitter />
             <DeleteButton color="#FFF0" onClick={() => onDelete(listId)} />
           </Header>
-          <CardsList listId={listId} listType="CARD" cards={cards} />
+          <CardsList listId={listId} listType="CARD" cards={cards} onCardDelete={onCardDelete} />
           <Footer onCreateCard={(name) => onCreateCard(listId, name)} />
         </Container>
       )}

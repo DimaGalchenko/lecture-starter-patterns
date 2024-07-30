@@ -10,9 +10,10 @@ import { CardItem } from "../../card-item/card-item";
 
 type Props = {
   cards: Card[];
+  onCardDelete: (carId: string) => void;
 };
 
-const Cards = ({ cards }: Props) => (
+const Cards = ({ cards, onCardDelete }: Props) => (
   <React.Fragment>
     {cards.map((card: Card, index: number) => (
       <Draggable key={card.id} draggableId={card.id} index={index}>
@@ -25,6 +26,7 @@ const Cards = ({ cards }: Props) => (
             card={card}
             isDragging={dragSnapshot.isDragging}
             provided={dragProvided}
+            onDelete={onCardDelete}
           />
         )}
       </Draggable>
