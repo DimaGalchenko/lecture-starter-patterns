@@ -12,16 +12,18 @@ import { Title } from "../primitives/title";
 import { Footer } from "./components/footer";
 import { Container } from "./styled/container";
 import { Header } from "./styled/header";
+import React from "react";
 
 type Props = {
   listId: string;
   listName: string;
   cards: Card[];
   index: number;
+  onTitleChange: (id: string, newTitle: string) => void;
   onDelete: (id: string) => void;
 };
 
-export const Column = ({ listId, listName, cards, index, onDelete }: Props) => {
+export const Column = ({ listId, listName, cards, index, onTitleChange, onDelete }: Props) => {
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -38,7 +40,7 @@ export const Column = ({ listId, listName, cards, index, onDelete }: Props) => {
             <Title
               aria-label={listName}
               title={listName}
-              onChange={() => {}}
+              onChange={(newTitle) => onTitleChange(listId, newTitle)}
               fontSize="large"
               width={200}
               isBold
