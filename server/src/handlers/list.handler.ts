@@ -9,7 +9,7 @@ class ListHandler extends SocketHandler {
     socket.on(ListEvent.CREATE, this.createList.bind(this));
     socket.on(ListEvent.GET, this.getLists.bind(this));
     socket.on(ListEvent.REORDER, this.reorderLists.bind(this));
-    socket.on(ListEvent.UPDATE, this.updateList.bind(this));
+    socket.on(ListEvent.RENAME, this.renameList.bind(this));
     socket.on(ListEvent.DELETE, this.deleteList.bind(this));
   }
 
@@ -41,7 +41,7 @@ class ListHandler extends SocketHandler {
     this.updateLists();
   }
 
-  private updateList(id: string, name: string) {
+  private renameList(id: string, name: string) {
     const lists = this.db.getData();
     const list = lists.find((list) => list.id === id);
     list.name = name;

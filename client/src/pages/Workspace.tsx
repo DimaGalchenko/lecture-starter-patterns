@@ -72,8 +72,12 @@ export const Workspace = () => {
     socket.emit(ListEvent.DELETE, listId);
   }
 
-  const onListNameChange = (listId: string, newTitle: string) => {
-    socket.emit(ListEvent.UPDATE, listId, newTitle);
+  const onListNameChange = (listId: string, newName: string) => {
+    socket.emit(ListEvent.RENAME, listId, newName);
+  }
+
+  const onCreateCard = (listId: string, name: string) => {
+    socket.emit(CardEvent.CREATE, listId, name)
   }
 
   return (
@@ -95,6 +99,7 @@ export const Workspace = () => {
                   listId={list.id}
                   onTitleChange={onListNameChange}
                   onDelete={onDeleteList}
+                  onCreateCard={onCreateCard}
                 />
               ))}
               {provided.placeholder}
